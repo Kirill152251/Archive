@@ -14,4 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Archive"
 include ':app'
-include ':api'
+include ':data'
+include ':domain'
