@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.repository.MainScreenRepository
 import com.example.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,21 +20,34 @@ class MainScreenViewModel @Inject constructor(
 
     var state by mutableStateOf(MainScreenState())
 
+    private var searchJob: Job? = null
+
     init {
         onEvent(MainScreenEvent.DisplayList)
     }
 
     fun onEvent(event: MainScreenEvent) {
         when (event) {
-            is MainScreenEvent.DisplayList -> getData(false)
+            is MainScreenEvent.DisplayList -> getData()
             is MainScreenEvent.Refresh -> getData(true)
+            is MainScreenEvent.SearchQueryChange -> {
+                state = state.copy(searchQuery = event.query)
+                searchJob?.cancel()
+                searchJob = viewModelScope.launch {
+                    delay(500)
+                    getData()
+                }
+            }
         }
     }
 
-    private fun getData(isRefreshNeeded: Boolean) {
+    private fun getData(
+        isRefreshNeeded: Boolean = false,
+        query: String = state.searchQuery.lowercase()
+    ) {
         viewModelScope.launch {
-            repository.getHeroesList(isRefreshNeeded).collect { result ->
-                when(result) {
+            repository.getHeroesList(isRefreshNeeded, query).collect { result ->
+                when (result) {
                     is Resource.Success -> {
                         result.data?.let {
                             state = state.copy(heroes = it)

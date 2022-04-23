@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HeroesDao {
@@ -12,9 +11,17 @@ interface HeroesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHeroes(heroes: List<HeroEntity>)
 
-    @Query("select * from HEROES_DB")
+    @Query("SELECT * FROM HEROES_DB")
     fun getHeroes(): List<HeroEntity>
 
-    @Query("delete from HEROES_DB")
+    @Query("DELETE FROM HEROES_DB")
     fun clearDb()
+
+    @Query(
+        """
+            SELECT * FROM HEROES_DB
+            WHERE LOWER(name) LIKE '%' || LOWER(:query) || '%'
+        """
+    )
+    suspend fun searchHero(query: String): List<HeroEntity>
 }

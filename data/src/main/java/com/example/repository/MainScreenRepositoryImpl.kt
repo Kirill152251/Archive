@@ -18,11 +18,22 @@ class MainScreenRepositoryImpl @Inject constructor(
     private val api: DotaApi,
     private val dao: HeroesDao
 ) : MainScreenRepository {
-    override suspend fun getHeroesList(isUpdateNeeded: Boolean): Flow<Resource<List<Hero>>> {
+
+    override suspend fun getHeroesList(
+        isUpdateNeeded: Boolean,
+        query: String
+    ): Flow<Resource<List<Hero>>> {
         return flow {
             emit(Resource.Loading(true))
-            val isDbEmpty = dao.getHeroes().isEmpty()
-            if (isDbEmpty || isUpdateNeeded) {
+            val localData = dao.searchHero(query).map { it.toHero() }
+            emit(Resource.Success(localData))
+
+            val isDbEmpty = localData.isEmpty() && query.isBlank()
+            val shouldLoadFromCache = !isDbEmpty && !isUpdateNeeded
+            if (shouldLoadFromCache) {
+                emit(Resource.Loading(false))
+                return@flow
+            }
             try {
                 val remoteHeroesList = api.getChampions()
                 dao.insertHeroes(heroes = remoteHeroesList.map { it.toEntity() })
@@ -35,12 +46,6 @@ class MainScreenRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
                 emit(Resource.Loading(false))
                 emit(Resource.Error(e.toString()))
-            }
-            } else {
-                emit(Resource.Success(
-                    data = dao.getHeroes().map { it.toHero() }
-                ))
-                emit(Resource.Loading(false))
             }
         }.flowOn(Dispatchers.IO)
     }

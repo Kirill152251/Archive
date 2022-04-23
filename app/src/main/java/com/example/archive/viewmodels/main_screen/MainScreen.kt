@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.archive.R
+import com.example.archive.ui.theme.DeepBlue
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.example.model.Hero
@@ -36,7 +38,22 @@ fun MainScreen(
             .fillMaxSize()
     ) {
         TopAppBar(
-            title = { Text(text = stringResource(id = R.string.app_name)) }
+            backgroundColor = DeepBlue,
+            title = { Text(text = stringResource(id = R.string.tool_bar_title), color = Color.White) }
+        )
+        OutlinedTextField(
+            value = state.searchQuery,
+            onValueChange = {
+                viewModel.onEvent(MainScreenEvent.SearchQueryChange(it))
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(6.dp),
+            placeholder = {
+                Text(text = stringResource(id = R.string.search_hint))
+            },
+            maxLines = 1,
+            singleLine = true
         )
         SwipeRefresh(
             state = swipeRefreshState,
