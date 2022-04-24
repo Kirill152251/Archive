@@ -1,4 +1,4 @@
-package com.example.archive.viewmodels.main_screen
+package com.example.archive.viewmodels.main
 
 sealed class MainScreenEvent {
     object Refresh: MainScreenEvent()

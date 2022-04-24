@@ -3,4 +3,18 @@
     <string name="error_message">Something went wrong :(</string>
     <string name="tool_bar_title">Archive of Heroes</string>
     <string name="search_hint">Search…</string>
+    <string name="toolbar_title_details">Hero Details</string>
+    <string name="agi">agi</string>
+    <string name="str">str</string>
+    <string name="attack_range">Attack Range</string>
+    <string name="attack_rate">Attack Rate</string>
+    <string name="move_speed">Move Speed</string>
+    <string name="base_hp">Base Health</string>
+    <string name="base_hp_regen">Base Health Regen</string>
+    <string name="base_armor">Base Armor</string>
+    <string name="base_mana">Base Mana</string>
+    <string name="base_mana_regen">Base Mana Regen</string>
+    <string name="base_agi">Base Agility</string>
+    <string name="base_str">Base Strength</string>
+    <string name="base_int">Base Intelligence</string>
 </resources>

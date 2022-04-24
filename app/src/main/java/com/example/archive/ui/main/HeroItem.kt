@@ -1,9 +1,10 @@
-package com.example.archive.viewmodels.main_screen
+package com.example.archive.ui.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -52,7 +53,8 @@ fun HeroItem(hero: Hero, modifier: Modifier, cardHeight: Float) {
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(4.dp),
-                    style = TextStyle(color = Color.White, fontSize = 14.sp)
+                    style = MaterialTheme.typography.h6,
+                    fontSize = 16.sp
                 )
             }
         }

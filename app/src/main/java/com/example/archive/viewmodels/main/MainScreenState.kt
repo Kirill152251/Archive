@@ -1,4 +1,4 @@
-package com.example.archive.viewmodels.main_screen
+package com.example.archive.viewmodels.main
 
 import com.example.model.Hero
 

@@ -56,7 +56,7 @@ object AppModule {
             app,
             AppDataBase::class.java,
             "AppDb"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Singleton

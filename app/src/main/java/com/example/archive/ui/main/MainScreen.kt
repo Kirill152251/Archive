@@ -1,4 +1,4 @@
-package com.example.archive.viewmodels.main_screen
+package com.example.archive.ui.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -17,7 +17,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.archive.R
+import com.example.archive.ui.destinations.DetailsScreenDestination
 import com.example.archive.ui.theme.DeepBlue
+import com.example.archive.viewmodels.main.MainScreenEvent
+import com.example.archive.viewmodels.main.MainScreenViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.example.model.Hero
@@ -62,7 +65,7 @@ fun MainScreen(
             when {
                 state.isLoading -> ShowProgressBar()
                 state.heroes.isNotEmpty() -> {
-                    ShowGridLazyColumn(list = state.heroes)
+                    ShowGridLazyColumn(list = state.heroes, navigator = navigator)
                 }
                 state.isError -> ShowErrorMassage()
             }
@@ -72,7 +75,7 @@ fun MainScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ShowGridLazyColumn(list: List<Hero>) {
+fun ShowGridLazyColumn(list: List<Hero>, navigator: DestinationsNavigator) {
     LazyVerticalGrid(cells = GridCells.Fixed(2), modifier = Modifier.padding(end = 6.dp)) {
         items(list.size) { i ->
             val itemHero = list[i]
@@ -83,7 +86,7 @@ fun ShowGridLazyColumn(list: List<Hero>) {
                     .padding(top = 6.dp, start = 6.dp)
                     .fillMaxWidth()
                     .clickable {
-                        //TODO: navigate to details screen
+                        navigator.navigate(DetailsScreenDestination(itemHero.id))
                     }
             )
         }

@@ -1,11 +1,11 @@
-package com.example.archive.viewmodels.main_screen
+package com.example.archive.viewmodels.main
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.repository.MainScreenRepository
+import com.example.repository.AppRepository
 import com.example.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
-    private val repository: MainScreenRepository
+    private val repository: AppRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(MainScreenState())

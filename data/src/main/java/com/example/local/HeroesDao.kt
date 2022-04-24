@@ -24,4 +24,7 @@ interface HeroesDao {
         """
     )
     suspend fun searchHero(query: String): List<HeroEntity>
+
+    @Query("SELECT * FROM HEROES_DB WHERE (id) LIKE (:id)")
+    fun getHeroDetails(id: Int): HeroEntity
 }

@@ -1,9 +1,12 @@
 package com.example.repository
 
+import android.util.Log
 import com.example.local.HeroesDao
 import com.example.mapper.toEntity
 import com.example.mapper.toHero
+import com.example.mapper.toHeroDetails
 import com.example.model.Hero
+import com.example.model.HeroDetails
 import com.example.remote.DotaApi
 import com.example.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -14,10 +17,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MainScreenRepositoryImpl @Inject constructor(
+class AppRepositoryImpl @Inject constructor(
     private val api: DotaApi,
     private val dao: HeroesDao
-) : MainScreenRepository {
+) : AppRepository {
 
     override suspend fun getHeroesList(
         isUpdateNeeded: Boolean,
@@ -44,9 +47,16 @@ class MainScreenRepositoryImpl @Inject constructor(
                 )
                 emit(Resource.Loading(false))
             } catch (e: Exception) {
+                Log.e("TAG", e.toString())
                 emit(Resource.Loading(false))
                 emit(Resource.Error(e.toString()))
             }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getHeroDetails(id: Int): Flow<HeroDetails> {
+        return flow {
+            emit(dao.getHeroDetails(id).toHeroDetails())
         }.flowOn(Dispatchers.IO)
     }
 }
