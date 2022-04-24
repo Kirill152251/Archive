@@ -92,4 +92,7 @@ dependencies {
     api "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     api 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    //SplashScreen
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 }

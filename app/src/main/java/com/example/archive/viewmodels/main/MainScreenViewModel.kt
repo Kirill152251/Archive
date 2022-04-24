@@ -20,10 +20,13 @@ class MainScreenViewModel @Inject constructor(
 
     var state by mutableStateOf(MainScreenState())
 
+    val isLoading = mutableStateOf(true)
+
     private var searchJob: Job? = null
 
     init {
         onEvent(MainScreenEvent.DisplayList)
+        isLoading.value = false
     }
 
     fun onEvent(event: MainScreenEvent) {
