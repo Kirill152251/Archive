@@ -12,10 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.model.Hero
 
 
@@ -30,10 +32,14 @@ fun HeroItem(hero: Hero, modifier: Modifier, cardHeight: Float) {
             modifier = Modifier.fillMaxSize()
         ) {
             AsyncImage(
-                model = hero.image_url,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(hero.image_url)
+                    .crossfade(true)
+                    .crossfade(100)
+                    .build(),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.FillBounds
+                contentScale = ContentScale.FillBounds,
             )
             Box(
                 modifier = Modifier

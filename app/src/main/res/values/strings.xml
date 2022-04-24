@@ -17,4 +17,11 @@
     <string name="base_agi">Base Agility</string>
     <string name="base_str">Base Strength</string>
     <string name="base_int">Base Intelligence</string>
+    <string name="abilities_msg">Here should be hero\'\s abilities, but i couldn\'t find API with this info :(</string>
+    <string name="lore_msg">Here should be hero\'\s lore, but i couldn\'t find API with this info :(</string>
+    <string name="strategy_msg">Here should be hero\'\s strategy, but i couldn\'t find API with this info :(</string>
+    <string name="attr">Attributes</string>
+    <string name="abilities">Abilities</string>
+    <string name="strategy">Strategy</string>
+    <string name="lore">Lore</string>
 </resources>
