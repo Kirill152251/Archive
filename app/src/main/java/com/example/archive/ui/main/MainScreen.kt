@@ -5,10 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,8 +38,8 @@ fun MainScreen(
             .fillMaxSize()
     ) {
         TopAppBar(
-            backgroundColor = DeepBlue,
-            title = { Text(text = stringResource(id = R.string.tool_bar_title), color = Color.White) }
+            backgroundColor = MaterialTheme.colors.primary,
+            title = { Text(text = stringResource(id = R.string.tool_bar_title), color = MaterialTheme.colors.onBackground) }
         )
         OutlinedTextField(
             value = state.searchQuery,
@@ -99,7 +96,7 @@ private fun ShowErrorMassage() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = stringResource(id = R.string.error_message), color = Color.White)
+        Text(text = stringResource(id = R.string.error_message), color = MaterialTheme.colors.onBackground)
     }
 }
 

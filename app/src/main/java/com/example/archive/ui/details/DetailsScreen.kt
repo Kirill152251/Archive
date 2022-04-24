@@ -4,13 +4,14 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,9 +19,9 @@ import coil.compose.AsyncImage
 import com.example.archive.R
 import com.example.archive.ui.theme.Background
 import com.example.archive.ui.theme.DeepBlue
-import com.example.archive.ui.theme.Purple
 import com.example.archive.viewmodels.details.DetailsScreenEvent
 import com.example.archive.viewmodels.details.DetailsScreenViewModel
+import com.example.model.HeroDetails
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -44,13 +45,13 @@ fun DetailsScreen(
             title = {
                 Text(
                     text = stringResource(id = R.string.toolbar_title_details),
-                    color = Color.White
+                    color = MaterialTheme.colors.onBackground
                 )
             },
             navigationIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.back_icon),
-                    tint = Color.White,
+                    tint = MaterialTheme.colors.onBackground,
                     contentDescription = null,
                     modifier = Modifier
                         .padding(start = 16.dp)
@@ -128,44 +129,130 @@ fun DetailsScreen(
                 }
             }
         }
-        Column(
+        val tabs = listOf(
+            stringResource(id = R.string.attr),
+            stringResource(id = R.string.abilities),
+            stringResource(id = R.string.strategy),
+            stringResource(id = R.string.lore)
+        )
+        ScrollableTabRow(
+            selectedTabIndex = viewModel.state.selectedTabIndex.value,
+            edgePadding = 0.dp,
             modifier = Modifier
-                .padding(12.dp)
-                .verticalScroll(rememberScrollState())
-                .fillMaxSize()
+                .padding(horizontal = 12.dp),
+            backgroundColor = Color.Transparent,
+            contentColor = MaterialTheme.colors.onBackground
         ) {
-            val listOfTitles = listOf(
-                stringResource(id = R.string.attack_range),
-                stringResource(id = R.string.attack_rate),
-                stringResource(id = R.string.move_speed),
-                stringResource(id = R.string.base_hp),
-                stringResource(id = R.string.base_hp_regen),
-                stringResource(id = R.string.base_mana),
-                stringResource(id = R.string.base_mana_regen),
-                stringResource(id = R.string.base_armor),
-                stringResource(id = R.string.base_agi),
-                stringResource(id = R.string.base_str),
-                stringResource(id = R.string.base_int)
-            )
-            val listOfValues = listOf(
-                data.attackRange,
-                data.attackRate,
-                data.moveSpeed,
-                data.baseHealth,
-                data.baseHealthRegen,
-                data.baseMana,
-                data.baseManaRegen,
-                data.baseArmor,
-                data.baseAgi,
-                data.baseStr,
-                data.baseInt
-            )
-            for (i in listOfTitles.indices) {
-                CreateAttributeRow(
-                    title = listOfTitles[i],
-                    value = listOfValues[i].toString()
+            tabs.forEachIndexed { tabIndex, tab ->
+                Tab(
+                    selected = viewModel.state.selectedTabIndex.value == tabIndex,
+                    onClick = { viewModel.state.selectedTabIndex.value = tabIndex },
+                    text = {
+                        Text(
+                            text = tab
+                        )
+                    }
                 )
             }
+        }
+        when (viewModel.state.selectedTabIndex.value) {
+            0 -> ShowAttributes(data = data)
+            1 -> ShowAbilities()
+            2 -> ShowStrategy()
+            3 -> ShowLore()
+        }
+
+    }
+}
+
+@Composable
+fun ShowLore() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 30.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(id = R.string.lore_msg),
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+@Composable
+fun ShowStrategy() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 30.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(id = R.string.strategy_msg),
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+@Composable
+fun ShowAbilities() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 30.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(id = R.string.abilities_msg),
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+
+@Composable
+fun ShowAttributes(data: HeroDetails) {
+    Column(
+        modifier = Modifier
+            .padding(12.dp)
+            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
+    ) {
+        val listOfTitles = listOf(
+            stringResource(id = R.string.attack_range),
+            stringResource(id = R.string.attack_rate),
+            stringResource(id = R.string.move_speed),
+            stringResource(id = R.string.base_hp),
+            stringResource(id = R.string.base_hp_regen),
+            stringResource(id = R.string.base_mana),
+            stringResource(id = R.string.base_mana_regen),
+            stringResource(id = R.string.base_armor),
+            stringResource(id = R.string.base_agi),
+            stringResource(id = R.string.base_str),
+            stringResource(id = R.string.base_int)
+        )
+        val listOfValues = listOf(
+            data.attackRange,
+            data.attackRate,
+            data.moveSpeed,
+            data.baseHealth,
+            data.baseHealthRegen,
+            data.baseMana,
+            data.baseManaRegen,
+            data.baseArmor,
+            data.baseAgi,
+            data.baseStr,
+            data.baseInt
+        )
+        for (i in listOfTitles.indices) {
+            CreateAttributeRow(
+                title = listOfTitles[i],
+                value = listOfValues[i].toString()
+            )
         }
     }
 }
@@ -185,11 +272,11 @@ fun CreateAttributeRow(title: String, value: String) {
 @Composable
 fun CreateRole(role: String) {
     Box {
-        Card(shape = RoundedCornerShape(16.dp), backgroundColor = Purple) {
+        Card(shape = RoundedCornerShape(16.dp), backgroundColor = MaterialTheme.colors.secondary) {
             Text(
                 modifier = Modifier.padding(vertical = 6.dp, horizontal = 16.dp),
                 text = role,
-                color = Color.White,
+                color = MaterialTheme.colors.onBackground,
                 style = MaterialTheme.typography.h6,
                 fontSize = 16.sp
             )
