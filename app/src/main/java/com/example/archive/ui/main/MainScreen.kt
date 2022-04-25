@@ -13,7 +13,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import com.example.archive.R
+import com.example.archive.navigation.BottomBar
+import com.example.archive.ui.NavGraphs
 import com.example.archive.ui.destinations.DetailsScreenDestination
 import com.example.archive.ui.theme.DeepBlue
 import com.example.archive.viewmodels.main.MainScreenEvent
@@ -23,6 +26,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.example.model.Hero
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.ramcosta.composedestinations.DestinationsNavHost
 
 @Composable
 @Destination(start = true)

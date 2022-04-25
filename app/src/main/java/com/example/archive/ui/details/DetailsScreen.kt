@@ -35,6 +35,7 @@ fun DetailsScreen(
     viewModel.onEvent(DetailsScreenEvent.ShowInfo(id))
     val data = viewModel.state.heroInfo
     val roles = data.roles
+
     Column(
         modifier = Modifier
             .fillMaxSize()

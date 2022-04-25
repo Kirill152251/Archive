@@ -6,9 +6,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.archive.navigation.BottomBar
 import com.example.archive.ui.NavGraphs
 import com.example.archive.ui.theme.ArchiveTheme
 import com.example.archive.viewmodels.main.MainScreenViewModel
@@ -23,17 +29,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
-            setKeepOnScreenCondition{
+            setKeepOnScreenCondition {
                 viewModel.isLoading.value
             }
         }
         setContent {
             ArchiveTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                val navController = rememberNavController()
+                Scaffold(
+                    bottomBar = { BottomBar(navController = navController) }
                 ) {
-                    DestinationsNavHost(navGraph = NavGraphs.root)
+                    DestinationsNavHost(navGraph = NavGraphs.root, navController = navController)
                 }
             }
         }
