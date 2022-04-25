@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.archive.ui.appDestination
 import com.example.archive.ui.destinations.Destination
+import com.example.archive.ui.destinations.DetailsScreenDestination
 import com.ramcosta.composedestinations.navigation.navigateTo
 
 
@@ -15,6 +16,10 @@ import com.ramcosta.composedestinations.navigation.navigateTo
 fun BottomBar(navController: NavController) {
     val currentDestination: Destination? = navController.currentBackStackEntryAsState()
         .value?.appDestination()
+
+    if (currentDestination == DetailsScreenDestination) {
+        return
+    }
 
     BottomNavigation(backgroundColor = MaterialTheme.colors.primary) {
         BottomBarDestination.values().forEach { destination ->
