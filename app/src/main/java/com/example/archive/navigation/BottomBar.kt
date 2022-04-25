@@ -28,6 +28,7 @@ fun BottomBar(navController: NavController) {
                 onClick = {
                     navController.navigateTo(destination.direction) {
                         launchSingleTop = true
+                        restoreState = true
                     }
                 },
                 icon = {
