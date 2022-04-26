@@ -32,4 +32,6 @@
     <string name="hint_last_name">Last name</string>
     <string name="hint_nickname">Nickname</string>
     <string name="save_msg">Info saved</string>
+    <string name="save">Save</string>
+    <string name="change_profile_picture">Change profile picture</string>
 </resources>
