@@ -1,12 +1,6 @@
 package com.example.archive.ui.profile
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
@@ -29,7 +23,6 @@ import com.example.archive.R
 import com.example.archive.ui.theme.DeepBlue
 import com.example.archive.viewmodels.profile.ProfileScreenEvent
 import com.example.archive.viewmodels.profile.ProfileViewModel
-import com.example.local.InternalStorageManager
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 
