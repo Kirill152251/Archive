@@ -1,10 +1,13 @@
 package com.example.archive.viewmodels.main
 
+import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.local.InternalStorageManager
 import com.example.repository.AppRepository
 import com.example.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
-    private val repository: AppRepository
+    private val repository: AppRepository,
+    private val internalStorageManager: InternalStorageManager
 ) : ViewModel() {
 
     var state by mutableStateOf(MainScreenState())

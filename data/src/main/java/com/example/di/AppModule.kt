@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.local.AppDataBase
 import com.example.local.HeroesDao
+import com.example.local.InternalStorageManager
 import com.example.remote.DotaApi
 import com.example.repository.ProfileRepositoryImpl
 import com.example.utils.BASE_URL
@@ -72,4 +73,9 @@ object AppModule {
     @Provides
     fun provideProfileRepositoryImpl(@ApplicationContext context: Context): ProfileRepositoryImpl =
         ProfileRepositoryImpl(context)
+
+    @Singleton
+    @Provides
+    fun provideInternalStorageManager(@ApplicationContext context: Context): InternalStorageManager =
+        InternalStorageManager(context)
 }
