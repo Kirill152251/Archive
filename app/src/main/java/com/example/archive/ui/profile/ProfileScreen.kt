@@ -45,7 +45,7 @@ fun ProfileScreen(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        DisplayTopBar(snackbarHostState, viewModel, stringResource(id = R.string.save_msg))
+        TopBar(snackbarHostState, viewModel, stringResource(id = R.string.save_msg))
         Spacer(modifier = Modifier.height(16.dp))
         Image(
             bitmap = if (viewModel.state.profilePhotoBitmap == null) {
@@ -71,39 +71,48 @@ fun ProfileScreen(
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        DisplayTextInput(
+        TextInput(
             hint = stringResource(id = R.string.hint_first_name),
             onValueChange = {
                 viewModel.onEvent(ProfileScreenEvent.FirstNameChange(it))
             },
-            value = viewModel.state.user.firstName
+            value = viewModel.state.user.firstName,
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)
         )
-        DisplayTextInput(
+        TextInput(
             hint = stringResource(id = R.string.hint_last_name),
             onValueChange = {
                 viewModel.onEvent(ProfileScreenEvent.LastNameChange(it))
             },
-            value = viewModel.state.user.lastName
+            value = viewModel.state.user.lastName,
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)
         )
-        DisplayTextInput(
+        TextInput(
             hint = stringResource(id = R.string.hint_nickname),
             onValueChange = {
                 viewModel.onEvent(ProfileScreenEvent.NicknameChange(it))
             },
-            value = viewModel.state.user.nickname
+            value = viewModel.state.user.nickname,
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)
         )
         SnackbarHost(hostState = snackbarHostState)
     }
 }
 
 @Composable
-fun DisplayTextInput(hint: String, onValueChange: (String) -> Unit, value: String) {
+fun TextInput(
+    hint: String, onValueChange: (String) -> Unit, value: String, modifier: Modifier = Modifier
+) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp),
+        modifier = modifier,
         maxLines = 1,
         singleLine = true,
         placeholder = { Text(text = hint) }
@@ -112,7 +121,7 @@ fun DisplayTextInput(hint: String, onValueChange: (String) -> Unit, value: Strin
 }
 
 @Composable
-fun DisplayTopBar(snackbarHostState: SnackbarHostState, viewModel: ProfileViewModel, toast: String) {
+fun TopBar(snackbarHostState: SnackbarHostState, viewModel: ProfileViewModel, toast: String) {
     val scope = rememberCoroutineScope()
     TopAppBar(
         backgroundColor = DeepBlue,

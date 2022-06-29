@@ -1,7 +1,5 @@
 package com.example.archive.ui.main
 
-import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,22 +7,13 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
 import com.example.archive.R
-import com.example.archive.navigation.BottomBar
-import com.example.archive.ui.NavGraphs
 import com.example.archive.ui.destinations.DetailsScreenDestination
-import com.example.archive.ui.theme.DeepBlue
 import com.example.archive.viewmodels.main.MainScreenEvent
 import com.example.archive.viewmodels.main.MainScreenViewModel
 import com.ramcosta.composedestinations.annotation.Destination
@@ -32,7 +21,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.example.model.Hero
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.ramcosta.composedestinations.DestinationsNavHost
 
 @Composable
 @Destination(start = true)
@@ -42,7 +30,6 @@ fun MainScreen(
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = viewModel.state.isRefreshing)
     val state = viewModel.state
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -70,11 +57,11 @@ fun MainScreen(
             onRefresh = { viewModel.onEvent(MainScreenEvent.Refresh) }
         ) {
             when {
-                state.isLoading -> ShowProgressBar()
+                state.isLoading -> ProgressBar(Modifier.fillMaxSize())
                 state.heroes.isNotEmpty() -> {
-                    ShowGridLazyColumn(list = state.heroes, navigator = navigator)
+                    GridLazyColumn(list = state.heroes, navigator = navigator)
                 }
-                state.isError -> ShowErrorMassage()
+                state.isError -> ErrorMassage(Modifier.fillMaxSize())
             }
         }
     }
@@ -82,7 +69,7 @@ fun MainScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ShowGridLazyColumn(list: List<Hero>, navigator: DestinationsNavigator) {
+fun GridLazyColumn(list: List<Hero>, navigator: DestinationsNavigator) {
     LazyVerticalGrid(cells = GridCells.Fixed(2), modifier = Modifier.padding(end = 6.dp)) {
         items(list.size) { i ->
             val itemHero = list[i]
@@ -101,9 +88,9 @@ fun ShowGridLazyColumn(list: List<Hero>, navigator: DestinationsNavigator) {
 }
 
 @Composable
-private fun ShowErrorMassage() {
+private fun ErrorMassage(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         Text(text = stringResource(id = R.string.error_message), color = MaterialTheme.colors.onBackground)
@@ -111,9 +98,9 @@ private fun ShowErrorMassage() {
 }
 
 @Composable
-private fun ShowProgressBar() {
+private fun ProgressBar(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()

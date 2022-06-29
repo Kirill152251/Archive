@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -22,7 +21,7 @@ import com.example.model.Hero
 
 
 @Composable
-fun HeroItem(hero: Hero, modifier: Modifier, cardHeight: Float) {
+fun HeroItem(hero: Hero, cardHeight: Float, modifier: Modifier = Modifier) {
     Card(
         shape = RoundedCornerShape(8.dp),
         modifier = modifier.height(cardHeight.dp),

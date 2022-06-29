@@ -125,7 +125,7 @@ fun DetailsScreen(
         ) {
             if (roles.isNotEmpty()) {
                 for (item in roles) {
-                    CreateRole(role = item)
+                    RoleBox(role = item, Modifier.padding(vertical = 6.dp, horizontal = 16.dp))
                     Spacer(modifier = Modifier.width(18.dp))
                 }
             }
@@ -157,21 +157,22 @@ fun DetailsScreen(
             }
         }
         when (viewModel.state.selectedTabIndex.value) {
-            0 -> ShowAttributes(data = data)
-            1 -> ShowAbilities()
-            2 -> ShowStrategy()
-            3 -> ShowLore()
+            0 -> AttributesColumn(data = data, Modifier
+                .padding(12.dp)
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize())
+            1 -> AbilitiesColumn(Modifier.fillMaxSize().padding(horizontal = 30.dp))
+            2 -> StrategyColumn(Modifier.fillMaxSize().padding(horizontal = 30.dp))
+            3 -> LoreColumn(Modifier.fillMaxSize().padding(horizontal = 30.dp))
         }
 
     }
 }
 
 @Composable
-fun ShowLore() {
+fun LoreColumn(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 30.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -183,11 +184,9 @@ fun ShowLore() {
 }
 
 @Composable
-fun ShowStrategy() {
+fun StrategyColumn(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 30.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -199,11 +198,9 @@ fun ShowStrategy() {
 }
 
 @Composable
-fun ShowAbilities() {
+fun AbilitiesColumn(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 30.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -216,12 +213,9 @@ fun ShowAbilities() {
 
 
 @Composable
-fun ShowAttributes(data: HeroDetails) {
+fun AttributesColumn(data: HeroDetails, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
-            .padding(12.dp)
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize()
+        modifier = modifier
     ) {
         val listOfTitles = listOf(
             stringResource(id = R.string.attack_range),
@@ -250,18 +244,19 @@ fun ShowAttributes(data: HeroDetails) {
             data.baseInt
         )
         for (i in listOfTitles.indices) {
-            CreateAttributeRow(
+            AttributeRow(
                 title = listOfTitles[i],
-                value = listOfValues[i].toString()
+                value = listOfValues[i].toString(),
+                modifier = Modifier.fillMaxSize()
             )
         }
     }
 }
 
 @Composable
-fun CreateAttributeRow(title: String, value: String) {
+fun AttributeRow(title: String, value: String, modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = title, fontSize = 16.sp)
@@ -271,11 +266,11 @@ fun CreateAttributeRow(title: String, value: String) {
 }
 
 @Composable
-fun CreateRole(role: String) {
+fun RoleBox(role: String, modifier: Modifier = Modifier) {
     Box {
         Card(shape = RoundedCornerShape(16.dp), backgroundColor = MaterialTheme.colors.secondary) {
             Text(
-                modifier = Modifier.padding(vertical = 6.dp, horizontal = 16.dp),
+                modifier = modifier,
                 text = role,
                 color = MaterialTheme.colors.onBackground,
                 style = MaterialTheme.typography.h6,
